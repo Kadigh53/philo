@@ -3,41 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kadigh <kadigh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/04/17 05:02:49 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:05:19 by kadigh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int i=0;
-void	test()
+int	main(int ac, char *av[])
 {
-	i++;
-	sleep(3);
-	printf("wali iewaren %d \n",i);
-	sleep(2);
-	printf("\n");
-	printf("wali iewaren %d \n",i);
-}
-void	test2()
-{
-	sleep(3);
-	printf("wissin ayd  %d \n",i);
-	sleep(1);
-	i--;
-	printf("wissin ayd2 %d \n",i);
+	t_vars	*vars;
+	if (ac > 6 || ac < 5)
+		error("invalid nbr of args\n");
+	vars = ft_calloc(1, sizeof(vars));
+	init_args(ac, av, vars);
+	free(vars);
 }
 
-int	main(int ac, char **av)
-{
-	pthread_t	t1;
-	pthread_t	t2;
-	pthread_create(&t1,NULL,&test,NULL);
-	pthread_create(&t2,NULL,&test2,NULL);
-	pthread_join(t1,NULL);
-	pthread_join(t2,NULL);
-	return (0);
-}
+// creat a two threaded program that executs two routine functions and the first thread waits he other using the join function 
+
+// int i=0;
+// pthread_mutex_t mutex;
+
+// void	*test(void *t)
+// {
+// 	int k =0;
+// 	pthread_mutex_lock(&mutex);
+// 	while (k < 100000000){
+// 		// pthread_mutex_lock(&mutex);
+// 		i++;
+// 		k++;
+// 		// pthread_mutex_unlock(&mutex);
+// 	}
+// 	pthread_mutex_unlock(&mutex);
+// }
+
+// int	main(int ac, char **av)
+// {
+	// pthread_t	t1;
+// 	pthread_t	t2;
+// 	pthread_mutex_init(&mutex, NULL);
+
+// 	pthread_create(&t1,NULL,test,NULL);
+// 	pthread_create(&t2,NULL,test,NULL);
+	
+// 	pthread_join(t1,NULL);
+// 	pthread_join(t2,NULL);
+	
+// 	printf("%d\n",i);
+	
+// 	pthread_mutex_destroy(&mutex);
+// 	return (0);
+// }
