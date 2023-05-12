@@ -1,0 +1,5 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/aaoutem-/Desktop/projects/philo'
+make: Nothing to be done for `all'.
+make: Leaving directory `/Users/aaoutem-/Desktop/projects/philo'
+ 

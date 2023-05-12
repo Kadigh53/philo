@@ -3,23 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadigh <kadigh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/10 23:05:19 by kadigh           ###   ########.fr       */
+/*   Updated: 2023/05/12 01:39:08 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	*routine(void *arg)
+{
+	t_data	*data =  (t_data *)arg;
+	printf("%d hello\n", data->nbr_of_philos);
+	return (NULL);
+}
+
+void	create_philos(t_data **data)
+{
+	int i;
+
+	i = -1;
+	while (++i < (*data)->nbr_of_philos)
+	{
+		pthread_mutex_init(((*data)->forks + i)->forks, NULL);
+		((*data)->philos + 1)->id = i;
+		((*data)->forks + i)->id = i;
+	}
+	while (++i < (*data)->nbr_of_philos)
+	{
+		pthread_create((*data)->philos_thread + i, NULL, routine, *data);
+	}
+	i = -1;
+	while (++i < (*data)->nbr_of_philos)
+		pthread_join((*data)->philos_thread[i], NULL);
+	i = -1;
+	while (++i < (*data)->nbr_of_philos)
+		pthread_mutex_destroy(((*data)->forks + i)->forks);
+}
+
 int	main(int ac, char *av[])
 {
-	t_vars	*vars;
+	t_data	*data;
+
+	data = ft_calloc(1, sizeof(t_data));
 	if (ac > 6 || ac < 5)
 		error("invalid nbr of args\n");
-	vars = ft_calloc(1, sizeof(vars));
-	init_args(ac, av, vars);
-	free(vars);
+	init_args(ac, av, &data);
+	create_philos(&data);
 }
 
 // creat a two threaded program that executs two routine functions and the first thread waits he other using the join function 

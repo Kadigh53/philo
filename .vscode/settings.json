@@ -1,3 +1,6 @@
 {
-    "dart.autoImportCompletions": true
+    "dart.autoImportCompletions": true,
+    "files.associations": {
+        "stdlib.h": "c"
+    }
 }
