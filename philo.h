@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:37:21 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/13 01:24:17 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/13 21:38:44 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@
 
 // typedef	struct s_philo t_philo;
 
+typedef struct s_forks
+{
+	int				id;
+	pthread_mutex_t	*forks;
+}	t_forks;
+
+
 typedef struct s_vars
 {
 
@@ -40,18 +47,12 @@ typedef struct s_vars
 	int			nbrof_meals;
 } t_vars;
 
-typedef struct s_forks
-{
-	int				id;
-	pthread_mutex_t	*forks;
-}	t_forks;
-
-
 typedef	struct s_philo
 {
 	int				id;
 	int				state;
-	int				dead;
+	int				*dead;
+	pthread_mutex_t	*death_mutex;
 	int				meals_count;
 	u_int64_t		start_time;
 	u_int64_t		last_meal_time;
@@ -64,9 +65,11 @@ typedef	struct s_philo
 typedef	 struct data
 {
 	t_vars			vars;
+	int				dead;
+	pthread_mutex_t	death_mutex;
 	t_philo			*philos;
 	pthread_t		*philos_thread;
-	pthread_mutex_t	*forks; 
+	pthread_mutex_t	*forks;
 	u_int64_t		start_time;
 }	t_data;
 

@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:46:30 by kadigh            #+#    #+#             */
-/*   Updated: 2023/05/13 00:59:43 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/13 20:19:28 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	init_vars_struct(t_data **data,int ac, char ** av)
 {
 	int i;
 
-	i = -1;
 	(*data)->vars.nbr_of_philos= ft_atoi(av[1]);
 	(*data)->vars.time_to_die= ft_atoi(av[2]);
 	(*data)->vars.time_to_eat= ft_atoi(av[3]);
@@ -25,16 +24,18 @@ void	init_vars_struct(t_data **data,int ac, char ** av)
 		(*data)->vars.nbrof_meals = ft_atoi(av[5]);
 	else
 		(*data)->vars.nbrof_meals = -1;
-	while (++i <  (*data)->vars.nbr_of_philos)
+	i = -1;
+	while (++i < (*data)->vars.nbr_of_philos)
 	{
 		(*data)->philos[i].vars.nbr_of_philos = ft_atoi(av[1]);
-		(*data)->philos[i].vars.time_to_die = ft_atoi(av[2]);
+		(*data)->philos[i].vars.time_to_die = ft_atoi(av[2]);	
 		(*data)->philos[i].vars.time_to_eat = ft_atoi(av[3]);
 		(*data)->philos[i].vars.time_to_sleep = ft_atoi(av[4]);
 		if (ac == 6)
 			(*data)->philos[i].vars.nbrof_meals = ft_atoi(av[5]);
 		else
 			(*data)->philos[i].vars.nbrof_meals = -1;
+		// i++;
 	}
 }
 

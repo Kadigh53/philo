@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/13 01:35:16 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/13 21:50:12 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	pick_forks(t_philo *philo)
 	pthread_mutex_lock(philo->left_fork);
 	printf("%llu\t%d\thas taken a fork\n",ft_mstime() - philo->start_time, philo->id);
 	printf("%llu\t%d\tis eating\n",ft_mstime() - philo->start_time, philo->id);
+	philo->meals_count++;
+	philo->last_meal_time = ft_mstime();
 	usleep(philo->vars.time_to_eat * 1000);
 }
 
@@ -43,19 +45,41 @@ void	drop_forks(t_philo *philo)
 
 void	eating(t_philo	*philo)
 {
+	// if (ft_mstime() - philo->last_meal_time >= philo->vars.time_to_die)
+	// {
+	// 	philo->dead = 1;
+	// 	printf("%llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
+	// 	exit(0);
+	// }
 	pick_forks(philo);
 	usleep(philo->vars.time_to_eat * 1000);
 	drop_forks(philo);
 }
+void	check_death(t_philo *philo)
+{
+	pthread_mutex_init(philo->death_mutex, NULL);
+	pthread_mutex_lock(philo->death_mutex);
+	if (ft_mstime() - philo->last_meal_time >= philo->vars.time_to_die)
+	{
+		*philo->dead = 1;
+		printf("%llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
+		exit(0);
+	}
+	pthread_mutex_unlock(philo->death_mutex);
+	pthread_mutex_destroy(philo->death_mutex);
+}
+
 void	*routine(void *arg)
 {
 	t_philo	*philo = (t_philo *)arg;
 	int i = 0;
 	if (philo->id % 2 != 0)
-		usleep(5000);
-	while (i++ <4)//philo->dead == 0 && philo->meals_count < philo->vars.nbrof_meals)
+		usleep(1000);
+	while (1)//philo->dead == 0 && philo->meals_count < philo->vars.nbrof_meals)
 	{
-		printf("hello from thead %d\n", philo->id);
+		if (philo->meals_count >= philo->vars.nbrof_meals && philo->vars.nbrof_meals != -1)
+			break;
+		check_death(philo);
 		eating(philo);
 	}
 	return (NULL);
@@ -66,10 +90,11 @@ void	create_philos(t_data **data)
 	int i;
 
 	i = -1;
+	(*data)->dead = 0;
 	while (++i < (*data)->vars.nbr_of_philos)
 	{
 		pthread_mutex_init((*data)->forks + i, NULL);
-		// (*data)->philos[i].thread_id = &(*data)->philos_thread[i];
+		(*data)->philos[i].thread_id = &(*data)->philos_thread[i];
 		if (i  == (*data)->vars.nbr_of_philos - 1)
 		{
 			(*data)->philos[i].right_fork = &(*data)->forks[i];
@@ -82,8 +107,11 @@ void	create_philos(t_data **data)
 		}
 		((*data)->philos + i)->start_time = ft_mstime();
 		((*data)->philos + i)->last_meal_time = ft_mstime();
-		((*data)->philos + i)->id = i;
-		((*data)->philos + i)->dead = 0;
+		((*data)->philos + i)->meals_count = 0;
+		((*data)->philos + i)->id = i + 1;
+		((*data)->philos + i)->dead = &(*data)->dead;
+		((*data)->philos + i)->death_mutex = &(*data)->death_mutex;
+		// pthread_mutex_init(&(*data)->death_mutex, NULL);
 		// ((*data)->forks + i)->id = i;
 	}
 	i = -1;
