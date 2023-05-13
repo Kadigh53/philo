@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gettime.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadigh <kadigh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 23:09:47 by kadigh            #+#    #+#             */
-/*   Updated: 2023/05/11 00:03:21 by kadigh           ###   ########.fr       */
+/*   Updated: 2023/05/13 00:41:34 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../philo.h"
 
-u_int64_t   ft_gettime_inms()
+u_int64_t   ft_mstime(void)
 {
     struct timeval tv;
     
