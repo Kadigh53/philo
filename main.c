@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/13 21:50:12 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/13 22:07:49 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	check_death(t_philo *philo)
 	pthread_mutex_lock(philo->death_mutex);
 	if (ft_mstime() - philo->last_meal_time >= philo->vars.time_to_die)
 	{
-		*philo->dead = 1;
+		philo->dead = 1;
 		printf("%llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
 		exit(0);
 	}
