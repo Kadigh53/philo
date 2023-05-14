@@ -6,13 +6,14 @@
 #    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 01:40:26 by aaoutem-          #+#    #+#              #
-#    Updated: 2023/05/13 19:57:31 by aaoutem-         ###   ########.fr        #
+#    Updated: 2023/05/14 18:56:03 by aaoutem-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = gcc 
-FLAGS = -Wall -Wextra  -pthread -g  #-fsanitize=address
+RM = rm 
+FLAGS = -Wall -Wextra  -pthread -g  #-fsanitize=thread
 SRC = main.c \
 	src/init.c \
 	src/util_fcts/error.c \
@@ -26,15 +27,16 @@ OBJ_F = ${SRC:.c=.o}
 all : ${NAME}
 
 ${NAME} : ${OBJ_F}
-	${CC} ${FLAGS} ${OBJ_F} -o philo
+	@${CC} ${FLAGS} ${OBJ_F} -o philo
+	@${RM} ${OBJ_F}
 
 %.o : %.c 
-	${CC} ${FLAGS} $< -c -o $@ 
+	@${CC} ${FLAGS} $< -c -o $@ 
 
 clean :
-	${RM} ${OBJ_F}
+	@${RM} ${OBJ_F}
 
 fclean : clean
-	${RM} ${NAME} 
+	@${RM} ${NAME} 
 
 re : fclean all

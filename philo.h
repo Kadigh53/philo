@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:37:21 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/13 21:38:44 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/14 17:53:54 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@
 
 // typedef	struct s_philo t_philo;
 
-typedef struct s_forks
-{
-	int				id;
-	pthread_mutex_t	*forks;
-}	t_forks;
+// typedef struct s_forks
+// {
+// 	int				id;
+// 	pthread_mutex_t	*forks;
+// }	t_forks;
 
 
 typedef struct s_vars
@@ -56,7 +56,7 @@ typedef	struct s_philo
 	int				meals_count;
 	u_int64_t		start_time;
 	u_int64_t		last_meal_time;
-	t_vars			vars;
+	t_vars			*vars;
 	pthread_t		*thread_id;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;

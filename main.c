@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/13 22:07:49 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/14 18:54:26 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	pick_forks(t_philo *philo)
 	printf("%llu\t%d\tis eating\n",ft_mstime() - philo->start_time, philo->id);
 	philo->meals_count++;
 	philo->last_meal_time = ft_mstime();
-	usleep(philo->vars.time_to_eat * 1000);
+	usleep(philo->vars->time_to_eat * 1000);
 }
 
 void	drop_forks(t_philo *philo)
@@ -40,33 +40,26 @@ void	drop_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 	printf("%llu\t%d\tis sleeping\n",ft_mstime() - philo->start_time,philo->id);
-	usleep(philo->vars.time_to_sleep * 1000);
+	usleep(philo->vars->time_to_sleep * 1000);
 }
 
 void	eating(t_philo	*philo)
 {
-	// if (ft_mstime() - philo->last_meal_time >= philo->vars.time_to_die)
-	// {
-	// 	philo->dead = 1;
-	// 	printf("%llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
-	// 	exit(0);
-	// }
 	pick_forks(philo);
-	usleep(philo->vars.time_to_eat * 1000);
+	usleep(philo->vars->time_to_eat * 1000);
 	drop_forks(philo);
 }
+
 void	check_death(t_philo *philo)
 {
-	pthread_mutex_init(philo->death_mutex, NULL);
 	pthread_mutex_lock(philo->death_mutex);
-	if (ft_mstime() - philo->last_meal_time >= philo->vars.time_to_die)
+	if (ft_mstime() - philo->last_meal_time >= philo->vars->time_to_die && philo->dead != 1)
 	{
 		philo->dead = 1;
 		printf("%llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
 		exit(0);
 	}
 	pthread_mutex_unlock(philo->death_mutex);
-	pthread_mutex_destroy(philo->death_mutex);
 }
 
 void	*routine(void *arg)
@@ -74,10 +67,10 @@ void	*routine(void *arg)
 	t_philo	*philo = (t_philo *)arg;
 	int i = 0;
 	if (philo->id % 2 != 0)
-		usleep(1000);
-	while (1)//philo->dead == 0 && philo->meals_count < philo->vars.nbrof_meals)
+		usleep(2000);
+	while (1)
 	{
-		if (philo->meals_count >= philo->vars.nbrof_meals && philo->vars.nbrof_meals != -1)
+		if (philo->meals_count >= philo->vars->nbrof_meals && philo->vars->nbrof_meals != -1)
 			break;
 		check_death(philo);
 		eating(philo);
@@ -91,6 +84,7 @@ void	create_philos(t_data **data)
 
 	i = -1;
 	(*data)->dead = 0;
+	pthread_mutex_init(&(*data)->death_mutex, NULL);
 	while (++i < (*data)->vars.nbr_of_philos)
 	{
 		pthread_mutex_init((*data)->forks + i, NULL);
@@ -111,9 +105,9 @@ void	create_philos(t_data **data)
 		((*data)->philos + i)->id = i + 1;
 		((*data)->philos + i)->dead = &(*data)->dead;
 		((*data)->philos + i)->death_mutex = &(*data)->death_mutex;
-		// pthread_mutex_init(&(*data)->death_mutex, NULL);
-		// ((*data)->forks + i)->id = i;
+		((*data)->philos + i)->vars = &(*data)->vars;
 	}
+	printf("%llu   %llu\t%d\tstarted\n\n",ft_mstime() , (*data)->start_time, 1);
 	i = -1;
 	while (++i < (*data)->vars.nbr_of_philos)
 	{
@@ -125,6 +119,7 @@ void	create_philos(t_data **data)
 	i = -1;
 	while (++i < (*data)->vars.nbr_of_philos)
 		pthread_mutex_destroy((*data)->forks + i);
+	pthread_mutex_destroy(&(*data)->death_mutex);
 }
 
 int	main(int ac, char *av[])
@@ -138,38 +133,3 @@ int	main(int ac, char *av[])
 	create_philos(&data);
 }
 
-// creat a two threaded program that executs two routine functions and the first thread waits he other using the join function 
-
-// int i=0;
-// pthread_mutex_t mutex;
-
-// void	*test(void *t)
-// {
-// 	int k =0;
-// 	pthread_mutex_lock(&mutex);
-// 	while (k < 100000000){
-// 		// pthread_mutex_lock(&mutex);
-// 		i++;
-// 		k++;
-// 		// pthread_mutex_unlock(&mutex);
-// 	}
-// 	pthread_mutex_unlock(&mutex);
-// }
-
-// int	main(int ac, char **av)
-// {
-	// pthread_t	t1;
-// 	pthread_t	t2;
-// 	pthread_mutex_init(&mutex, NULL);
-
-// 	pthread_create(&t1,NULL,test,NULL);
-// 	pthread_create(&t2,NULL,test,NULL);
-	
-// 	pthread_join(t1,NULL);
-// 	pthread_join(t2,NULL);
-	
-// 	printf("%d\n",i);
-	
-// 	pthread_mutex_destroy(&mutex);
-// 	return (0);
-// }
