@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kadigh <kadigh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/14 19:00:12 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/14 22:52:29 by kadigh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 void	pick_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
-	printf("%llu\t%d\thas taken a fork\n",ft_mstime() - philo->start_time, philo->id);
+	printf("%lu\t%d\thas taken a fork\n",ft_mstime() - philo->vars->start_time, philo->id);
 	pthread_mutex_lock(philo->left_fork);
-	printf("%llu\t%d\thas taken a fork\n",ft_mstime() - philo->start_time, philo->id);
-	printf("%llu\t%d\tis eating\n",ft_mstime() - philo->start_time, philo->id);
+	printf("%lu\t%d\thas taken a fork\n",ft_mstime() - philo->vars->start_time, philo->id);
+	printf("%lu\t%d\tis eating\n",ft_mstime() - philo->vars->start_time, philo->id);
 	philo->meals_count++;
 	philo->last_meal_time = ft_mstime();
 	usleep(philo->vars->time_to_eat * 1000);
@@ -39,7 +39,7 @@ void	drop_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
-	printf("%llu\t%d\tis sleeping\n",ft_mstime() - philo->start_time,philo->id);
+	printf("%lu\t%d\tis sleeping\n",ft_mstime() - philo->vars->start_time,philo->id);
 	usleep(philo->vars->time_to_sleep * 1000);
 }
 
@@ -53,10 +53,10 @@ void	eating(t_philo	*philo)
 void	check_death(t_philo *philo)
 {
 	pthread_mutex_lock(philo->death_mutex);
-	if (ft_mstime() - philo->last_meal_time >= philo->vars->time_to_die && philo->dead != 1)
+	if (ft_mstime() - philo->last_meal_time >= philo->vars->time_to_die && *philo->dead != 1)
 	{
-		philo->dead = 1;
-		printf("%llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
+		*philo->dead = 1;
+		printf("%lu\t%d\tdead\n",ft_mstime() - philo->vars->start_time,philo->id);
 		exit(0);
 	}
 	pthread_mutex_unlock(philo->death_mutex);
@@ -65,7 +65,6 @@ void	check_death(t_philo *philo)
 void	*routine(void *arg)
 {
 	t_philo	*philo = (t_philo *)arg;
-	int i = 0;
 	if (philo->id % 2 != 0)
 		usleep(2000);
 	while (1)
@@ -84,7 +83,7 @@ void	create_philos(t_data **data)
 
 	i = -1;
 	(*data)->dead = 0;
-	pthread_mutex_init(&(*data)->death_mutex, NULL);
+	pthread_mutex_init((*data)->death_mutex, NULL);
 	while (++i < (*data)->vars.nbr_of_philos)
 	{
 		pthread_mutex_init((*data)->forks + i, NULL);
@@ -99,15 +98,15 @@ void	create_philos(t_data **data)
 			(*data)->philos[i].right_fork = &(*data)->forks[i];
 			(*data)->philos[i].left_fork = &(*data)->forks[i + 1];
 		}
-		((*data)->philos + i)->start_time = ft_mstime();
+		// ((*data)->philos + i)->start_time = ft_mstime();
 		((*data)->philos + i)->last_meal_time = ft_mstime();
 		((*data)->philos + i)->meals_count = 0;
 		((*data)->philos + i)->id = i + 1;
 		((*data)->philos + i)->dead = &(*data)->dead;
-		((*data)->philos + i)->death_mutex = &(*data)->death_mutex;
+		((*data)->philos + i)->death_mutex = (*data)->death_mutex;
 		((*data)->philos + i)->vars = &(*data)->vars;
 	}
-	printf("%llu %d  %llu\t%d\tstarted\n\n",ft_mstime() , (*data)->start_time, 1);
+	printf("%lu %ld  %d\t\tstarted\n\n",ft_mstime() , (*data)->start_time, 1);
 	i = -1;
 	while (++i < (*data)->vars.nbr_of_philos)
 	{
@@ -119,7 +118,7 @@ void	create_philos(t_data **data)
 	i = -1;
 	while (++i < (*data)->vars.nbr_of_philos)
 		pthread_mutex_destroy((*data)->forks + i);
-	pthread_mutex_destroy(&(*data)->death_mutex);
+	pthread_mutex_destroy((*data)->death_mutex);
 }
 
 int	main(int ac, char *av[])
@@ -127,6 +126,9 @@ int	main(int ac, char *av[])
 	t_data	*data;
 
 	data = ft_calloc(1, sizeof(t_data));
+	data->death_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t *));
+	data->start_time = ft_mstime();
+	data->dead = 0;
 	if (ac > 6 || ac < 5)
 		error("invalid nbr of args\n");
 	init_args(ac, av, &data);
