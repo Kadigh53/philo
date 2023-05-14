@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/14 18:54:26 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/14 19:00:12 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	create_philos(t_data **data)
 		((*data)->philos + i)->death_mutex = &(*data)->death_mutex;
 		((*data)->philos + i)->vars = &(*data)->vars;
 	}
-	printf("%llu   %llu\t%d\tstarted\n\n",ft_mstime() , (*data)->start_time, 1);
+	printf("%llu %d  %llu\t%d\tstarted\n\n",ft_mstime() , (*data)->start_time, 1);
 	i = -1;
 	while (++i < (*data)->vars.nbr_of_philos)
 	{
