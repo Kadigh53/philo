@@ -6,14 +6,14 @@
 #    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 01:40:26 by aaoutem-          #+#    #+#              #
-#    Updated: 2023/05/14 18:56:03 by aaoutem-         ###   ########.fr        #
+#    Updated: 2023/05/15 15:49:31 by aaoutem-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = gcc 
 RM = rm 
-FLAGS = -Wall -Wextra  -pthread -g  #-fsanitize=thread
+FLAGS = -Wall -Wextra -pthread -g  -fsanitize=thread
 SRC = main.c \
 	src/init.c \
 	src/util_fcts/error.c \

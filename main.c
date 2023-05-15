@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/15 03:26:06 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/15 03:56:19 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	check_death(t_philo *philo)
 	if (ft_mstime() - philo->last_meal_time >= philo->vars->time_to_die && *philo->dead != 1)
 	{
 		*philo->dead = 1;
-		usleep(3000);
+		usleep(1000);
 		printf("\033[31m %llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
 		exit(0);
 	}
@@ -55,7 +55,7 @@ void	*routine(void *arg)
 	t_philo	*philo = (t_philo *)arg;
 
 	if (philo->id % 2 != 0)
-		usleep(1000);
+		usleep(500);
 	while (1)
 	{
 		if (philo->meals_count >= philo->vars->nbrof_meals && philo->vars->nbrof_meals != -1)
@@ -115,13 +115,6 @@ void	create_philos(t_data **data)
 	pthread_mutex_destroy(&(*data)->death_mutex);
 }
 
-void check_leaks() {
-    pid_t pid = getpid();
-    char cmd[256];
-	sprintf(cmd, "leaks %d", pid);
-    system(cmd);
-}
-
 int	main(int ac, char *av[])
 {
 	t_data	*data;
@@ -131,6 +124,5 @@ int	main(int ac, char *av[])
 		error("invalid nbr of args\n");
 	init_args(ac, av, &data);
 	create_philos(&data);
-	// atexit(check_leaks);
 	while(1);
 }
