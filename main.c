@@ -6,11 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/15 03:56:19 by aaoutem-         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/15 03:26:06 by aaoutem-         ###   ########.fr       */
->>>>>>> 3c8b842e50451754597ffb549f1b81175ccb5b50
+/*   Updated: 2023/05/17 15:56:27 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +21,6 @@ void	pick_forks(t_philo *philo)
 	printf("\033[1;33m %llu\t%d\tis eating\n",ft_mstime() - philo->start_time, philo->id);
 	philo->meals_count++;
 	philo->last_meal_time = ft_mstime();
-	// usleep(philo->vars->time_to_eat * 1000);
 }
 
 void	drop_forks(t_philo *philo)
@@ -47,11 +42,7 @@ void	check_death(t_philo *philo)
 	if (ft_mstime() - philo->last_meal_time >= philo->vars->time_to_die && *philo->dead != 1)
 	{
 		*philo->dead = 1;
-<<<<<<< HEAD
-		usleep(1000);
-=======
-		usleep(3000);
->>>>>>> 3c8b842e50451754597ffb549f1b81175ccb5b50
+		usleep(2000);
 		printf("\033[31m %llu\t%d\tdead\n",ft_mstime() - philo->start_time,philo->id);
 		exit(0);
 	}
@@ -63,11 +54,7 @@ void	*routine(void *arg)
 	t_philo	*philo = (t_philo *)arg;
 
 	if (philo->id % 2 != 0)
-<<<<<<< HEAD
 		usleep(500);
-=======
-		usleep(1000);
->>>>>>> 3c8b842e50451754597ffb549f1b81175ccb5b50
 	while (1)
 	{
 		if (philo->meals_count >= philo->vars->nbrof_meals && philo->vars->nbrof_meals != -1)
@@ -76,6 +63,7 @@ void	*routine(void *arg)
 		eating(philo);
 		printf("\033[34m %llu\t%d\tis sleeping\n",ft_mstime() - philo->start_time,philo->id);
 		usleep(philo->vars->time_to_sleep * 1000);
+		check_death(philo);
 		if (philo->last_meal_time + philo->vars->time_to_die > ft_mstime() - philo->start_time)
 		{
 			printf("\033[0m %llu\t%d\tis thinking\n",ft_mstime() - philo->start_time,philo->id);
@@ -84,68 +72,68 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-void	create_philos(t_data **data)
-{
-	int i;
+// void	create_philos(t_data **data, t_philo **philos)
+// {
+// 	int i;
 
-	i = -1;
-	(*data)->dead = 0;
-	pthread_mutex_init(&(*data)->death_mutex, NULL);
-	while (++i < (*data)->vars.nbr_of_philos)
-	{
-		pthread_mutex_init((*data)->forks + i, NULL);
-		(*data)->philos[i].thread_id = &(*data)->philos_thread[i];
-		if (i  == (*data)->vars.nbr_of_philos - 1)
-		{
-			(*data)->philos[i].right_fork = &(*data)->forks[i];
-			(*data)->philos[i].left_fork = &(*data)->forks[0];
-		}
-		else
-		{
-			(*data)->philos[i].right_fork = &(*data)->forks[i];
-			(*data)->philos[i].left_fork = &(*data)->forks[i + 1];
-		}
-		((*data)->philos + i)->start_time = ft_mstime();
-		((*data)->philos + i)->last_meal_time = ft_mstime();
-		((*data)->philos + i)->meals_count = 0;
-		((*data)->philos + i)->id = i + 1;
-		((*data)->philos + i)->dead = &(*data)->dead;
-		((*data)->philos + i)->death_mutex = &(*data)->death_mutex;
-		((*data)->philos + i)->vars = &(*data)->vars;
-	}
-	i = -1;
-	while (++i < (*data)->vars.nbr_of_philos)
-	{
-		pthread_create((*data)->philos_thread + i, NULL, routine, &(*data)->philos[i]);
-	}
-	i = -1;
-	while (++i < (*data)->vars.nbr_of_philos)
-		pthread_join((*data)->philos_thread[i], NULL);
-	i = -1;
-	while (++i < (*data)->vars.nbr_of_philos)
-		pthread_mutex_destroy((*data)->forks + i);
-	pthread_mutex_destroy(&(*data)->death_mutex);
-}
-
-void check_leaks() {
-    pid_t pid = getpid();
-    char cmd[256];
-	sprintf(cmd, "leaks %d", pid);
-    system(cmd);
-}
+// }
 
 int	main(int ac, char *av[])
 {
 	t_data	*data;
+	t_philo	*philos;
 
-	data = ft_calloc(1, sizeof(t_data));
+	int i = 0;
 	if (ac > 6 || ac < 5)
 		error("invalid nbr of args\n");
+	data = ft_calloc(1, sizeof(t_data));
+	data->vars = malloc(sizeof(t_vars));
+	data->death_mutex = calloc(1, sizeof(pthread_mutex_t));
+	data->dead = 0;
 	init_args(ac, av, &data);
-	create_philos(&data);
-<<<<<<< HEAD
-=======
-	// atexit(check_leaks);
->>>>>>> 3c8b842e50451754597ffb549f1b81175ccb5b50
-	while(1);
+	philos = calloc((data)->vars->nbr_of_philos , sizeof(t_philo));
+	data->philos_thread = malloc((data)->vars->nbr_of_philos * sizeof(pthread_t));
+	(data)->forks = malloc((data)->vars->nbr_of_philos * sizeof(pthread_mutex_t));
+	// while (i < (data)->vars->nbr_of_philos)
+	// 	philos[i++] = (t_philo *)calloc(1,sizeof(t_philo));
+	i= -1;
+	pthread_mutex_init(data->death_mutex, NULL);
+	while (++i < (data)->vars->nbr_of_philos)
+		pthread_mutex_init(&(data)->forks[i], NULL);
+	i= -1;
+	while (++i < (data)->vars->nbr_of_philos)
+	{
+		if (i  == (data)->vars->nbr_of_philos - 1)
+		{
+			philos[i].right_fork = &(data)->forks[i];
+			philos[i].left_fork = &(data)->forks[0];
+		}
+		else
+		{
+			philos[i].right_fork = &(data)->forks[i];
+			philos[i].left_fork = &(data)->forks[i + 1];
+		}
+		philos[i].dead = &(data)->dead;
+		philos[i].start_time = ft_mstime();
+		philos[i].last_meal_time = ft_mstime();
+		philos[i].meals_count = 0;
+		philos[i].id = i;
+		philos[i].death_mutex = (data)->death_mutex;
+		philos[i].vars = (data)->vars;
+		// printf("%d\t%p\n",i,philos[i].dead);
+	}
+	// printf("%d\t%p \n\n",data->dead,&data->dead);
+	i = -1;
+	while (++i < (data)->vars->nbr_of_philos)
+	{
+		pthread_create(&(data)->philos_thread[i], NULL, routine, &philos[i]);
+	}
+	i = -1;
+	while (++i < (data)->vars->nbr_of_philos)
+		pthread_join((data)->philos_thread[i], NULL);
+	i = -1;
+	while (++i < (data)->vars->nbr_of_philos)
+		pthread_mutex_destroy(&(data)->forks[i]);
+	pthread_mutex_destroy(data->death_mutex);
+	return  (0);
 }

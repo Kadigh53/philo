@@ -1,5 +1,12 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/aaoutem-/Desktop/projects/philo'
-make: Nothing to be done for `all'.
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address main.c -c -o main.o 
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address src/init.c -c -o src/init.o 
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address src/util_fcts/error.c -c -o src/util_fcts/error.o 
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address src/util_fcts/ft_atoi.c -c -o src/util_fcts/ft_atoi.o 
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address src/util_fcts/ft_calloc.c -c -o src/util_fcts/ft_calloc.o 
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address src/util_fcts/ft_gettime.c -c -o src/util_fcts/ft_gettime.o 
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address src/util_fcts/ft_strlen.c -c -o src/util_fcts/ft_strlen.o 
+gcc  -Wall -Wextra -pthread -g  -fsanitize=address main.o src/init.o src/util_fcts/error.o src/util_fcts/ft_atoi.o src/util_fcts/ft_calloc.o src/util_fcts/ft_gettime.o src/util_fcts/ft_strlen.o -o philo
 make: Leaving directory `/Users/aaoutem-/Desktop/projects/philo'
  

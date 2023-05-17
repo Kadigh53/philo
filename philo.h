@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:37:21 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/14 17:53:54 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/05/16 18:45:18 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,8 @@
 # include <stddef.h>
 # include <sys/time.h>
 
-# define DEAD 0
-# define EAT 1
-# define SLEEP 2
-# define THINK 3
-
-// struct s_philo ;
-
-// typedef	struct s_philo t_philo;
-
-// typedef struct s_forks
-// {
-// 	int				id;
-// 	pthread_mutex_t	*forks;
-// }	t_forks;
-
-
 typedef struct s_vars
 {
-
 	int			nbr_of_philos;
 	u_int64_t	time_to_die;
 	u_int64_t	time_to_eat;
@@ -57,17 +40,16 @@ typedef	struct s_philo
 	u_int64_t		start_time;
 	u_int64_t		last_meal_time;
 	t_vars			*vars;
-	pthread_t		*thread_id;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 }	t_philo;
 
 typedef	 struct data
 {
-	t_vars			vars;
+	t_vars			*vars;
 	int				dead;
-	pthread_mutex_t	death_mutex;
-	t_philo			*philos;
+	pthread_mutex_t	*death_mutex;
+	// t_philo			**philos;
 	pthread_t		*philos_thread;
 	pthread_mutex_t	*forks;
 	u_int64_t		start_time;
