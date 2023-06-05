@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:37:21 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/05/16 18:45:18 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/04 08:47:11 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,13 @@ typedef	 struct data
 	u_int64_t		start_time;
 }	t_data;
 
-size_t	ft_strlen(char *s);
-void	*ft_calloc(size_t count, size_t size);
-int		ft_atoi(char *str);
-
-void	init_args(int ac, char **av, t_data **data);
-u_int64_t   ft_mstime(void);
-int		error(char *str);
+size_t		ft_strlen(char *s);
+void		*ft_calloc(size_t count, size_t size);
+int			ft_atoi(char *str);
+void		init_args(int ac, char **av, t_data **data);
+void	 	ft_msleep(unsigned int time);
+int			error(char *str);
+u_int64_t	ft_mstime(void);
+void		*check_death(t_philo *philo);
 
 #endif 
