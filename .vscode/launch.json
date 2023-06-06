@@ -1,13 +1,11 @@
 {
     "configurations": [
-
-
         {
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/philo",
-            "args": ["4" ,"310" ,"200" ,"200"],
+            "program": "${workspaceFolder}/philo_bonus/a.out",
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

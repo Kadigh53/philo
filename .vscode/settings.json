@@ -3,6 +3,12 @@
     "files.associations": {
         "stdlib.h": "c",
         "__locale": "c",
-        "philo.h": "c"
+        "philo.h": "c",
+        "philo_bonus.h": "c",
+        "pthread.h": "c",
+        "cstdlib": "c",
+        "locale": "c",
+        "fcntl.h": "c",
+        "wait.h": "c"
     }
 }
