@@ -6,85 +6,97 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 01:39:28 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:08:36 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:09:07 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo_bonus.h"
+#include "philo_bonus.h"
 
 void	eat(t_philo *philo)
 {
-	sem_wait(philo->forks_sem);
-	printf("\033[32m %llu\t%d\thas taken a fork\n",ft_gettime_inms() - philo->start_time, philo->id);
-	sem_wait(philo->forks_sem);
-	printf("\033[32m %llu\t%d\thas taken a fork\n",ft_gettime_inms() - philo->start_time, philo->id);
+	sem_wait(philo->vars->forks_sem);
+	printf("\033[32m %llu\t%d\thas taken a fork\n",
+		ft_gettime_inms() - philo->vars->start_time, philo->id);
+	sem_wait(philo->vars->forks_sem);
+	printf("\033[32m %llu\t%d\thas taken a fork\n",
+		ft_gettime_inms() - philo->vars->start_time, philo->id);
 	philo->last_meal_time = ft_gettime_inms();
-	printf("\033[1;33m %llu\t%d\tis eating\n",ft_gettime_inms() - philo->start_time, philo->id);
+	philo->meals_count++;
+	if (philo->vars->nbrof_meals > 0
+		&& philo->meals_count >= philo->vars->nbrof_meals)
+		exit(0);
+	printf("\033[1;33m %llu\t%d\tis eating\n",
+		ft_gettime_inms() - philo->vars->start_time, philo->id);
 	ft_msleep(philo->vars->time_to_eat);
-	sem_post(philo->forks_sem);
-	sem_post(philo->forks_sem);
+	sem_post(philo->vars->forks_sem);
+	sem_post(philo->vars->forks_sem);
+}
+
+void	*check_death(void *arg)
+{
+	t_philo	*philo;
+	int		i;
+
+	philo = (t_philo *)arg;
+	while (1)
+	{
+		sem_wait(philo->vars->print_lock);
+		if (ft_gettime_inms() - philo->last_meal_time
+			> philo->vars->time_to_die)
+		{
+			philo->death_switch = 1;
+			printf("\033[31m %llu\t%d\tdead\n",
+				ft_gettime_inms() - philo->vars->start_time, philo->id);
+			kill(0, SIGINT);
+		}
+		sem_post(philo->vars->print_lock);
+	}
+	return (NULL);
 }
 
 void	*routine(t_philo *philo)
 {
-	// sem_t *forks_sem = (sem_t *)arg;
-	int i = 0;
-
-	while (i< 4)
+	if (pthread_create(&philo->philo_thread, NULL, &check_death, philo))
+	{
+		printf("error\n");
+		exit(1);
+	}
+	if (philo->id % 2 == 0)
+		usleep(100);
+	while (philo->death_switch != 1)
 	{
 		eat(philo);
-		printf("\033[34m %llu\t%d\tis sleeping\n",ft_gettime_inms() - philo->start_time,philo->id);
-		ft_msleep(philo->vars->time_to_eat);
-		// think()
-		i++;
+		printf("\033[34m %llu\t%d\tis sleeping\n",
+			ft_gettime_inms() - philo->vars->start_time, philo->id);
+		ft_msleep(philo->vars->time_to_sleep);
 	}
-	return NULL;
+	pthread_detach(philo->philo_thread);
+	return ((void *)1);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	int 				i;
+	int					i;
 	int					pid;
-	t_vars				*vars;
-	t_data				*data;
-	t_philo				*philos;
-	sem_t				*forks_sem;
-	unsigned int		forks_pair;
+	t_philo				*philo;
 
-	vars = ft_calloc(1, sizeof(t_vars));
-	if (ac > 6 || ac < 5)
-	{
-		// error
-		return (0);
-	}
-	init_args(ac, av, vars);
-	philos = ft_calloc(vars->nbr_of_philos, sizeof(t_philo));
-	forks_pair = (vars->nbr_of_philos / 2) + 1;
-	forks_sem = sem_open("/forks", O_CREAT | O_RDWR, 0700, forks_pair);
+	philo = init_philo(ac, av);
 	i = -1;
-	while (++i < vars->nbr_of_philos)
-	{
-		philos[i].id = i;
-		philos[i].meals_count = 0;
-		philos[i].start_time = ft_gettime_inms();
-		philos[i].last_meal_time = ft_gettime_inms();
-		philos[i].vars = vars;
-		philos[i].forks_sem = forks_sem;
-	}
-	i = -1;
-	while (++i < vars->nbr_of_philos)
+	while (++i < philo->vars->nbr_of_philos)
 	{
 		pid = fork();
 		if (pid == -1)
 			printf("error\n");
 		else if (pid == 0)
 		{
-			routine(&philos[i]);
+			routine(&philo[i]);
 			exit(0);
 		}
 	}
-	while (wait(NULL) != -1)
-		;
-	sem_close(forks_sem);
+	while (wait(NULL) != -1);
+	sem_close(philo->vars->forks_sem);
 	sem_unlink("/forks");
+	free(philo->vars);
+	free(philo);
+	return (0);
 }
