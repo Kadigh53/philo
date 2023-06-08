@@ -6,15 +6,17 @@
 #    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 01:40:26 by aaoutem-          #+#    #+#              #
-#    Updated: 2023/06/04 11:22:43 by aaoutem-         ###   ########.fr        #
+#    Updated: 2023/06/08 11:45:13 by aaoutem-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = gcc 
 RM = rm 
-FLAGS = -Wall -Wextra -pthread -g  #-fsanitize=address
+FLAGS = -Wall -Wextra -pthread -g -fsanitize=thread
 SRC = main.c \
+	eat.c \
+	sleep.c \
 	src/init.c \
 	src/util_fcts/error.c \
 	src/util_fcts/ft_atoi.c \
@@ -29,10 +31,9 @@ all : ${NAME}
 
 ${NAME} : ${OBJ_F}
 	${CC} ${FLAGS} ${OBJ_F} -o philo
-	clear
 
 %.o : %.c 
-	@${CC} ${FLAGS} $< -c -o $@ 
+	${CC} ${FLAGS} $< -c -o $@ 
 
 clean :
 	${RM} ${OBJ_F}

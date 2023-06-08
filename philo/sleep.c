@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gettime.c                                       :+:      :+:    :+:   */
+/*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/10 23:09:47 by kadigh            #+#    #+#             */
-/*   Updated: 2023/06/08 09:31:33 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/06/08 11:06:21 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/08 11:06:44 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "philo.h"
 
-u_int64_t	ft_mstime(void)
+void	sleeping(u_int64_t sleep_time)
 {
-	struct timeval	tv;
+	u_int64_t	start;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		exit (1);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	start = ft_mstime();
+	while (ft_mstime() - start < sleep_time)
+		ft_msleep(1);
 }

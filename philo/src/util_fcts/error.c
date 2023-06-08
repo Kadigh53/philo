@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadigh <kadigh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:11:11 by kadigh            #+#    #+#             */
-/*   Updated: 2023/05/08 14:13:06 by kadigh           ###   ########.fr       */
+/*   Updated: 2023/06/08 09:32:27 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../philo.h"
 
-int error(char *str)
+int	error(char *str)
 {
-    write(2, str, ft_strlen(str));
-    exit(1);
+	write(2, str, ft_strlen(str));
+	exit (1);
 }

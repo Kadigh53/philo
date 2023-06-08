@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 05:01:30 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/07 16:54:08 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/08 09:03:13 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ typedef struct s_vars
 	u_int64_t		time_to_eat;
 	u_int64_t		time_to_sleep;
 	int				nbrof_meals;
-	u_int64_t		start_time;
-	sem_t			*print_lock;
+	sem_t			*kill_lock;
 	sem_t			*forks_sem;
+	sem_t			*print_lock;
 }	t_vars;
 
 typedef struct s_philo
@@ -43,6 +43,7 @@ typedef struct s_philo
 	int			meals_count;
 	u_int64_t	last_meal_time;
 	pthread_t	philo_thread;
+	u_int64_t	start_time;
 	t_vars		*vars;
 }	t_philo;
 t_vars		*init_args(int ac, char **av, t_vars *vars);
