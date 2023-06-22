@@ -6,7 +6,7 @@
 #    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 15:02:40 by aaoutem-          #+#    #+#              #
-#    Updated: 2023/06/08 13:37:09 by aaoutem-         ###   ########.fr        #
+#    Updated: 2023/06/20 23:35:03 by aaoutem-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC = main.c \
 	utile_fcts/ft_calloc.c \
 	utile_fcts/ft_gettime.c \
 	utile_fcts/ft_msleep.c \
+	utile_fcts/m_print.c \
 
 OBJ_F = ${SRC:.c=.o}
 

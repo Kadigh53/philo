@@ -10,7 +10,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Thu Jun  8 12:36:00 2023
+# Make data base, printed on Thu Jun 22 17:12:50 2023
 
 # Variables
 
@@ -39,11 +39,13 @@ _ = /usr/bin/make
 # makefile
 MAKEFILE_LIST := 
 # environment
-VSCODE_CWD = /Users/aaoutem-
+VSCODE_CWD = /Users/aaoutem-/Desktop/projects
 # environment
 PATH = /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
+# environment
+LaunchInstanceID = 43514B48-A626-40CB-A1D6-3C11DD6FB96B
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # default
@@ -51,7 +53,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 LS_COLORS = di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.XlZSoM3nGG/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.Ch2Z85Qpp3/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -67,7 +69,7 @@ MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/aaoutem-/Library/Application Support/Code/CachedData/b3e4e68a0bc097f0ae7907b217c1119af9e03435
+VSCODE_CODE_CACHE_PATH = /Users/aaoutem-/Library/Application Support/Code/CachedData/695af097c7bd098fbf017ce3ac85e09bbc5dda06
 # environment
 LOGNAME = aaoutem-
 # environment
@@ -88,8 +90,6 @@ MAKE = $(MAKE_COMMAND)
 LC_TERMINAL = iTerm2
 # environment
 SHLVL = 3
-# environment
-VSCODE_CRASH_REPORTER_SANDBOXED_HINT = 1
 # default
 MAKE_VERSION := 3.81
 # environment
@@ -99,7 +99,7 @@ USER = aaoutem-
 # default
 MAKECMDGOALS := all
 # environment
-TERM_SESSION_ID = w0t0p0:EAF80B98-793A-4A6B-AA80-47D2BC71754C
+TERM_SESSION_ID = w1t0p0:D3114D71-C784-4B52-8857-C653DEA4CE8A
 # environment
 LESS = -R
 # automatic
@@ -115,7 +115,7 @@ TMPDIR = /var/folders/zz/zyxvpxvq6csfxvn_n000cgx00033z8/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/aaoutem-/Library/Application Support/Code/1.78-main.sock
+VSCODE_IPC_HOOK = /Users/aaoutem-/Library/Application Support/Code/1.79-main.sock
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -135,11 +135,14 @@ VSCODE_L10N_BUNDLE_LOCATION =
 # automatic
 +F = $(notdir $+)
 # environment
-ITERM_SESSION_ID = w0t0p0:EAF80B98-793A-4A6B-AA80-47D2BC71754C
+ITERM_SESSION_ID = w1t0p0:D3114D71-C784-4B52-8857-C653DEA4CE8A
 # environment
 COLORFGBG = 7;0
 # environment
+ 
 __CF_USER_TEXT_ENCODING = 0x18FE8:0x0:0x0
+# environment
+COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
 # automatic
@@ -150,6 +153,8 @@ ITERM_PROFILE = Default
 PAGER = less
 # environment
 LC_ALL = C
+# environment
+SECURITYSESSIONID = 186a5
 # automatic
 ^F = $(notdir $^)
 # default
@@ -163,9 +168,9 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 5205
+VSCODE_PID = 10309
 # variable set hash-table stats:
-# Load=75/1024=7%, Rehash=0, Collisions=4/96=4%
+# Load=77/1024=8%, Rehash=0, Collisions=4/98=4%
 
 # Pattern-specific Variable Values
 
@@ -247,6 +252,6 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Thu Jun  8 12:36:00 2023
+# Finished Make data base on Thu Jun 22 17:12:50 2023
 
  

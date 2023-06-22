@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 13:22:38 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:31:51 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/06/21 17:43:02 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/22 14:27:33 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "philo.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	parse(int ac, char **av)
 {
-	void	*p;
+	int	i;
 
-	p = malloc(count * size);
-	if (!p)
+	if (ft_atoi(av[1]) <= 0 || ft_atoi(av[1]) > 200)
 	{
-		write(2, "Allocation failled\n", 18);
-		return (NULL);
+		write(2, "Invalid argument\n", 17);
+		return (-1);
 	}
-	else
+	i = 2;
+	while (i < ac)
 	{
-		memset(p, 0, count * size);
-		return (p);
+		if (ft_atoi(av[i]) < 60)
+		{
+			write(2, "Invalid argument\n", 17);
+			return (-1);
+		}
+		i++;
 	}
+	return (1);
 }

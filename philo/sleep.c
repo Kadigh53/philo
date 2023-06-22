@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:06:21 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/08 11:06:44 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:53:36 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	sleeping(u_int64_t sleep_time)
 
 	start = ft_mstime();
 	while (ft_mstime() - start < sleep_time)
-		ft_msleep(1);
+		usleep(100);
 }

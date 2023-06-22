@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 01:39:28 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/08 12:24:56 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:03:49 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,15 @@
 void	eat(t_philo *philo)
 {
 	sem_wait(philo->vars->forks_sem);
-	sem_wait(philo->vars->print_lock);
-	printf("\033[32m %llu\t%d\thas taken a fork\n",
-		ft_gettime_inms() - philo->start_time, philo->id);
-	sem_post(philo->vars->print_lock);
+	print("\033[32m ", philo, "has taken a fork");
 	sem_wait(philo->vars->forks_sem);
-	sem_wait(philo->vars->print_lock);
-	printf("\033[32m %llu\t%d\thas taken a fork\n",
-		ft_gettime_inms() - philo->start_time, philo->id);
-	sem_post(philo->vars->print_lock);
+	print("\033[32m ", philo, "has taken a fork");
 	philo->last_meal_time = ft_gettime_inms();
 	philo->meals_count++;
 	if (philo->vars->nbrof_meals > 0
 		&& philo->meals_count >= philo->vars->nbrof_meals)
 		exit(0);
-	sem_wait(philo->vars->print_lock);
-	printf("\033[1;33m %llu\t%d\tis eating\n",
-		ft_gettime_inms() - philo->start_time, philo->id);
-	sem_post(philo->vars->print_lock);
+	print("\033[1;33m ", philo, "is eating");
 	ft_msleep(philo->vars->time_to_eat);
 	sem_post(philo->vars->forks_sem);
 	sem_post(philo->vars->forks_sem);
@@ -50,10 +41,7 @@ void	*check_death(void *arg)
 			> philo->vars->time_to_die)
 		{
 			philo->death_switch = 1;
-			sem_wait(philo->vars->print_lock);
-			printf("\033[31m %llu\t%d\tdead\n",
-				ft_gettime_inms() - philo->start_time, philo->id);
-			sem_post(philo->vars->print_lock);
+			print("\033[31m ", philo, "dead");
 			kill(0, SIGINT);
 		}
 		sem_post(philo->vars->kill_lock);
@@ -69,15 +57,15 @@ void	*routine(t_philo *philo)
 		exit(1);
 	}
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(500);
 	while (philo->death_switch != 1)
 	{
 		eat(philo);
-		sem_wait(philo->vars->print_lock);
-		printf("\033[34m %llu\t%d\tis sleeping\n",
-			ft_gettime_inms() - philo->start_time, philo->id);
-		sem_post(philo->vars->print_lock);
+		print("\033[34m ", philo, "is sleeping");
 		ft_msleep(philo->vars->time_to_sleep);
+		// still time to think
+		// if ()
+		// 	print("\033[35m ", philo, "is thinking");
 	}
 	pthread_detach(philo->philo_thread);
 	return ((void *)1);

@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/08 11:09:26 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:11:50 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	*check_death(t_philo *philo)
 {
+	usleep(500);
 	pthread_mutex_lock(philo->death_mutex);
 	if (ft_mstime() - philo->last_meal_time >= philo->vars->time_to_die)
 	{
-		*philo->dead = 1;
-		ft_msleep(2);
-		printf("\033[31m %llu\t%d\tdead\n",
+		**philo->dead = 1;
+		printf("\033[31m%llu\t%d\tdead\n",
 			ft_mstime() - philo->start_time, philo->id);
 		pthread_mutex_unlock(philo->death_mutex);
 		return (NULL);
@@ -33,54 +33,24 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		usleep(100);
+	if (philo->id % 2 != 0)
+		usleep(50);
 	while (1)
 	{
 		if (philo->meals_count >= philo->vars->nbrof_meals
 			&& philo->vars->nbrof_meals > -1)
 			break ;
 		eating(philo);
-		printf("\033[34m %llu\t%d\tis sleeping\n",
-			ft_mstime() - philo->start_time, philo->id);
+		print("\033[34m", philo, "is sleeping");
 		sleeping(philo->vars->time_to_sleep);
 		if (philo->last_meal_time + philo->vars->time_to_die
 			> ft_mstime() - philo->start_time)
-		{
-			printf("\033[0m %llu\t%d\tis thinking\n",
-				ft_mstime() - philo->start_time, philo->id);
-		}
+			print("\033[0m", philo, "is thinking");
 	}
 	return (NULL);
 }
 
-void	*death_monitor(void *arg)
-{
-	t_philo	*philos;
-	int		i;
-
-	philos = (t_philo *)arg;
-	i = 0;
-	while (1)
-	{
-		i = 0;
-		if (philos[i].meals_count >= philos[i].vars->nbrof_meals
-			&& philos[i].vars->nbrof_meals > -1)
-			break ;
-		while (i < philos->vars->nbr_of_philos)
-		{
-			if (philos[i].meals_count >= philos[i].vars->nbrof_meals
-				&& philos[i].vars->nbrof_meals > -1)
-				break ;
-			if (check_death(&philos[i]) == NULL)
-				return (NULL);
-			i++;
-		}
-	}
-	return (NULL);
-}
-
-void	threads_join(t_data *data)
+void	join_threads(t_data *data)
 {
 	int	i;
 
@@ -93,28 +63,54 @@ void	threads_join(t_data *data)
 	pthread_mutex_destroy(data->death_mutex);
 }
 
+void	*death_monitor(t_data *data, t_philo *philos)
+{
+	int		i;
+
+	i = 0;
+	while (i <= philos->vars->nbr_of_philos)
+	{
+		// usleep(500);
+		if (i == philos->vars->nbr_of_philos)
+			i = 0;
+		if (philos[i].meals_count >= philos[i].vars->nbrof_meals
+			&& philos[i].vars->nbrof_meals > -1)
+		{
+			join_threads(data);
+			return (NULL);
+		}
+		if (check_death(&philos[i]) == NULL)
+			return (NULL);
+		i++;
+	}
+	return (NULL);
+}
+
 int	main(int ac, char *av[])
 {
 	int			i;
-	void		*death_monitor_return;
 	t_data		*data;
 	t_philo		*philos;
-	pthread_t	monitor;
 
-	death_monitor_return = (void *)1;
 	data = init_args(ac, av);
+	if (!data)
+		return (1);
 	philos = init_philo(data);
+	if (!philos)
+		return (1);
 	i = -1;
 	pthread_mutex_init(data->death_mutex, NULL);
 	while (++i < (data)->vars->nbr_of_philos)
 		pthread_mutex_init(&(data)->forks[i], NULL);
-	pthread_create(&monitor, NULL, death_monitor, philos);
 	i = -1;
 	while (++i < (data)->vars->nbr_of_philos)
-		pthread_create(&(data)->philos_thread[i], NULL, routine, &philos[i]);
-	pthread_join(monitor, &death_monitor_return);
-	if (death_monitor_return == NULL)
+	{
+		philos[i].start_time = ft_mstime();
+		philos[i].last_meal_time = ft_mstime();
+		if (pthread_create(&data->philos_thread[i], NULL, routine, &philos[i]))
+			return (1);
+	}
+	if (!death_monitor(data, philos))
 		return (0);
-	threads_join(data);
 	return (0);
 }

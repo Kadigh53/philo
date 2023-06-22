@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   m_print.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 13:22:38 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:31:51 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/06/20 23:15:45 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/20 23:36:27 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../philo_bonus.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	print(char *color, t_philo *philo, char *str)
 {
-	void	*p;
-
-	p = malloc(count * size);
-	if (!p)
-	{
-		write(2, "Allocation failled\n", 18);
-		return (NULL);
-	}
-	else
-	{
-		memset(p, 0, count * size);
-		return (p);
-	}
+	sem_wait(philo->vars->print_lock);
+	printf("%s%llu\t%d\t%s\n",color,
+		ft_gettime_inms() - philo->start_time, philo->id, str);
+	sem_post(philo->vars->print_lock);
 }

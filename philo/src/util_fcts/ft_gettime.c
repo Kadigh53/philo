@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/10 23:09:47 by kadigh            #+#    #+#             */
-/*   Updated: 2023/06/08 09:31:33 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/05/10 23:09:47 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/22 16:51:11 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ u_int64_t	ft_mstime(void)
 {
 	struct timeval	tv;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		exit (1);
+	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

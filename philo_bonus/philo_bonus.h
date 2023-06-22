@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 05:01:30 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/08 09:03:13 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/20 23:36:46 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 	u_int64_t	start_time;
 	t_vars		*vars;
 }	t_philo;
+void		print(char *color, t_philo *philo, char *str);
 t_vars		*init_args(int ac, char **av, t_vars *vars);
 void		*ft_calloc(size_t count, size_t size);
 t_philo		*init_philo(int ac, char **av);

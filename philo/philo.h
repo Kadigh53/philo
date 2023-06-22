@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:37:21 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/08 11:07:05 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:57:31 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,20 @@
 
 typedef struct s_vars
 {
-	int			nbr_of_philos;
-	u_int64_t	time_to_die;
-	u_int64_t	time_to_eat;
-	u_int64_t	time_to_sleep;
-	int			nbrof_meals;
+	int				nbr_of_philos;
+	u_int64_t		time_to_die;
+	u_int64_t		time_to_eat;
+	u_int64_t		time_to_sleep;
+	int				nbrof_meals;
+	pthread_mutex_t	*print_lock;
+	int				*dead;
 }	t_vars;
 
 typedef struct s_philo
 {
 	int				id;
 	int				state;
-	int				*dead;
+	int				**dead;
 	pthread_mutex_t	*death_mutex;
 	int				meals_count;
 	u_int64_t		start_time;
@@ -47,7 +49,6 @@ typedef struct s_philo
 typedef struct data
 {
 	t_vars			*vars;
-	int				dead;
 	pthread_mutex_t	*death_mutex;
 	pthread_t		*philos_thread;
 	pthread_mutex_t	*forks;
@@ -61,9 +62,12 @@ t_philo		*init_philo(t_data *data);
 t_data		*init_args(int ac, char **av);
 void		ft_msleep(unsigned int time);
 void		eating(t_philo *philo);
-int			error(char *str);
+void		*error(char *str);
 u_int64_t	ft_mstime(void);
 void		sleeping(u_int64_t sleep_time);
 void		*check_death(t_philo *philo);
+void		print(char *color, t_philo *philo, char *str);
+int			ft_isdigit(int c);
+int			parse(int ac, char **av);
 
-#endif 
+#endif
