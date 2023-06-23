@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kadigh <kadigh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:37:21 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:57:31 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:19:28 by kadigh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_vars
 	u_int64_t		time_to_sleep;
 	int				nbrof_meals;
 	pthread_mutex_t	*print_lock;
+	// pthread_mutex_t	*eat_lock;
 	int				*dead;
 }	t_vars;
 
@@ -37,7 +38,7 @@ typedef struct s_philo
 	int				id;
 	int				state;
 	int				**dead;
-	pthread_mutex_t	*death_mutex;
+	pthread_mutex_t	**death_mutex;
 	int				meals_count;
 	u_int64_t		start_time;
 	u_int64_t		last_meal_time;

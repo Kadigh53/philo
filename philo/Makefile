@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
+#    By: kadigh <kadigh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 01:40:26 by aaoutem-          #+#    #+#              #
-#    Updated: 2023/06/23 14:35:42 by aaoutem-         ###   ########.fr        #
+#    Updated: 2023/06/23 23:20:33 by kadigh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = gcc 
 RM = rm 
-FLAGS = -Wall -Wextra -pthread
+FLAGS = -Wall -Wextra -pthread -fsanitize=thread
 HEADER = philo.h
 SRC = main.c \
 	eat.c \
