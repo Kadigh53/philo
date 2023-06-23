@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   m_print.c                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/20 23:24:27 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/21 18:06:15 by aaoutem-         ###   ########.fr       */
+/*   Created: 2022/10/05 22:00:23 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/23 14:15:23 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	print(char *color, t_philo *philo, char *str)
+size_t	ft_strlen(char *s)
 {
-	pthread_mutex_lock(philo->vars->print_lock);
-	if (*philo->vars->dead == 1)
-	{
-		pthread_mutex_unlock(philo->vars->print_lock);
-		return ;
-	}
-	printf("%s%llu\t%d\t%s\n", color,
-		ft_mstime() - philo->start_time, philo->id, str);
-	pthread_mutex_unlock(philo->vars->print_lock);
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }

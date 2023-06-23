@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 11:31:01 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/08 15:04:27 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:07:18 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	ft_msleep(u_int64_t time)
 
 	start = ft_gettime_inms();
 	while (ft_gettime_inms() - start < time)
-		usleep(10);
+		usleep(100);
 }

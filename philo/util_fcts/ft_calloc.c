@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_msleep.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/10 23:17:35 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:51:21 by aaoutem-         ###   ########.fr       */
+/*   Created: 2022/10/11 13:22:38 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/23 14:15:10 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../philo.h"
 
-u_int64_t	ft_gettime_inms(void)
+void	*ft_calloc(size_t count, size_t size)
 {
-	struct timeval	tv;
+	void	*p;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		error("gettimeofday failed\n");
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void	ft_msleep(unsigned int time)
-{
-	u_int64_t	start;
-
-	start = ft_gettime_inms();
-	while (ft_gettime_inms() - start < time)
-		usleep(100);
+	p = malloc(count * size);
+	if (!p)
+	{
+		write(2, "Allocation failled\n", 18);
+		return (NULL);
+	}
+	else
+	{
+		memset(p, 0, count * size);
+		return (p);
+	}
 }

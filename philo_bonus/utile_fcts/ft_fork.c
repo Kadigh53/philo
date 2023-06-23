@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 13:22:38 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:31:51 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/06/23 12:51:37 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/23 12:54:26 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../philo_bonus.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_fork(void)
 {
-	void	*p;
+	int pid;
 
-	p = malloc(count * size);
-	if (!p)
+	pid = fork();
+	if (pid < 0)
 	{
-		write(2, "Allocation failled\n", 18);
-		return (NULL);
+		printf("Error: fork failed\n");
+		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		memset(p, 0, count * size);
-		return (p);
-	}
+	return (pid);
 }

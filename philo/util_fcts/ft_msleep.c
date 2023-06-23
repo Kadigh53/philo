@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_msleep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 22:00:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/21 14:33:25 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/05/10 23:17:35 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/23 14:15:19 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../philo.h"
 
-size_t	ft_strlen(char *s)
+u_int64_t	ft_gettime_inms(void)
 {
-	size_t	i;
+	struct timeval	tv;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	if (gettimeofday(&tv, NULL) == -1)
+		error("gettimeofday failed\n");
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	ft_msleep(unsigned int time)
+{
+	u_int64_t	start;
+
+	start = ft_gettime_inms();
+	while (ft_gettime_inms() - start < time)
+		usleep(100);
 }

@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   m_print.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/06 15:06:12 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/23 12:01:37 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/06/20 23:24:27 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/06/23 14:14:44 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo_bonus.h"
+#include "philo.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	print(char *color, t_philo *philo, char *str)
 {
-	void	*p;
-
-	p = malloc(count * size);
-	if (!p)
+	pthread_mutex_lock(philo->vars->print_lock);
+	if (*philo->vars->dead == 1)
 	{
-		write(2, "Allocation failled\n", 19);
-		exit (1);
+		pthread_mutex_unlock(philo->vars->print_lock);
+		return ;
 	}
-	else
-	{
-		memset(p, 0, count * size);
-		return (p);
-	}
+	printf("%s%llu\t%d\t%s\n", color,
+		ft_mstime() - philo->start_time, philo->id, str);
+	pthread_mutex_unlock(philo->vars->print_lock);
 }

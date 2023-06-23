@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:50:25 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 17:11:50 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:12:39 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 != 0)
-		usleep(50);
+		usleep(100);
 	while (1)
 	{
 		if (philo->meals_count >= philo->vars->nbrof_meals
@@ -43,14 +43,12 @@ void	*routine(void *arg)
 		eating(philo);
 		print("\033[34m", philo, "is sleeping");
 		sleeping(philo->vars->time_to_sleep);
-		if (philo->last_meal_time + philo->vars->time_to_die
-			> ft_mstime() - philo->start_time)
-			print("\033[0m", philo, "is thinking");
+		print("\033[0m", philo, "is thinking");
 	}
 	return (NULL);
 }
 
-void	join_threads(t_data *data)
+void	join_threads(t_data *data, t_philo *philos)
 {
 	int	i;
 
@@ -61,6 +59,12 @@ void	join_threads(t_data *data)
 	while (++i < (data)->vars->nbr_of_philos)
 		pthread_mutex_destroy(&(data)->forks[i]);
 	pthread_mutex_destroy(data->death_mutex);
+	free(philos);
+	free(data->death_mutex);
+	free(data->forks);
+	free(data->philos_thread);
+	free(data->vars);
+	free(data);
 }
 
 void	*death_monitor(t_data *data, t_philo *philos)
@@ -76,7 +80,7 @@ void	*death_monitor(t_data *data, t_philo *philos)
 		if (philos[i].meals_count >= philos[i].vars->nbrof_meals
 			&& philos[i].vars->nbrof_meals > -1)
 		{
-			join_threads(data);
+			join_threads(data, philos);
 			return (NULL);
 		}
 		if (check_death(&philos[i]) == NULL)

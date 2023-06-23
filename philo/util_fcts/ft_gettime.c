@@ -6,11 +6,11 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 23:09:47 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:51:11 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:15:14 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../philo.h"
 
 u_int64_t	ft_mstime(void)
 {

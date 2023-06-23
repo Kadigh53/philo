@@ -6,11 +6,11 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 14:15:30 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/21 17:24:16 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:15:05 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../philo.h"
 
 int	ft_isdigit(int c)
 {

@@ -6,11 +6,11 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:46:30 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:57:16 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:24:50 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
 int	init_vars_struct(t_data **data, int ac, char **av)
 {

@@ -6,14 +6,14 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:11:11 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/22 16:52:35 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:17:19 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../philo.h"
 
 void	*error(char *str)
 {
 	write(2, str, ft_strlen(str));
-	return(NULL);
+	return (NULL);
 }

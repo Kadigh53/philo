@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 14:15:30 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/06/07 16:41:56 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/06/23 12:43:21 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_atoi(char *str)
 	i = is_space(str);
 	if (!valid_nbr(str + i))
 	{
-		printf("not a valid nbr\n");
+		printf(ERROR_MESSAGE);
 		exit(1);
 	}
 	while (str[i])
